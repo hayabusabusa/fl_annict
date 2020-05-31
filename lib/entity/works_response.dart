@@ -14,8 +14,9 @@ class WorksResponse {
   });
 
   factory WorksResponse.fromJson(Map<String, dynamic> json) {
+    final List<dynamic> rawWorks = json['works'];
     return WorksResponse(
-      works: json['works'].map((i) => Work.fromJson(i)).toList(),
+      works: rawWorks.map((i) => Work.fromJson(i)).toList(),
       total: json['total_count'],
       next: json['next_page'],
       prev: json['prev_page'],
