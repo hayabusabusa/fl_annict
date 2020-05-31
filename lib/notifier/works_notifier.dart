@@ -8,7 +8,7 @@ class WorksNotifier with ChangeNotifier {
 
   // MARK: Properties
 
-  bool _isLoading;
+  bool _isLoading = true;
   bool get isLoading => _isLoading;
 
   void _setIsLoading(bool isLoading) {
@@ -16,7 +16,7 @@ class WorksNotifier with ChangeNotifier {
     notifyListeners();
   }
 
-  List<Work> _works;
+  List<Work> _works = [];
   List<Work> get works => _works;
 
   void _setWorks(List<Work> works) {

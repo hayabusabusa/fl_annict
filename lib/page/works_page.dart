@@ -13,9 +13,15 @@ class WorksPage extends StatelessWidget {
       body: context.select((WorksNotifier value) {
         return value.isLoading 
           ? Center(child: CircularProgressIndicator(),) 
-          : ListView.builder(
+          : GridView.builder(
+            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2), 
             itemCount: value.works.length,
-            itemBuilder: (context, index) => Text(value.works[index].title),
+            itemBuilder: (context, index) => Container(
+              child: Image.network(
+                value.works[index].image,
+                fit: BoxFit.cover,
+              ),
+            ),
           );
       }) 
     );

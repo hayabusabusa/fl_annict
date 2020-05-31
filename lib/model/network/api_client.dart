@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
+import 'package:flutter/foundation.dart';
 
 import 'package:fl_annict/secret.dart';
 import 'package:fl_annict/entity/entity.dart';
@@ -22,6 +23,8 @@ class APIClient {
       HttpHeaders.authorizationHeader: token,
     };
     final response = await httpClient.get(url, headers: headers);
+
+    debugPrint('🛠 [API] ${_APIPath.works} RESPONSE\n${response.body}');
 
     if (response.statusCode == 200) {
       final raw = json.decode(response.body);
