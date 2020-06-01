@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 
 import 'package:fl_annict/notifier/notifier.dart';
 
@@ -17,10 +18,15 @@ class WorksPage extends StatelessWidget {
             gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2), 
             itemCount: value.works.length,
             itemBuilder: (context, index) => Container(
-              child: Image.network(
-                value.works[index].image,
-                fit: BoxFit.cover,
-              ),
+              child: value.works[index].image == null 
+                ? Container(
+                    child: Icon(Icons.broken_image)
+                  ) 
+                : CachedNetworkImage(
+                    imageUrl: value.works[index].image,
+                    fit: BoxFit.cover,
+                    placeholder: (_, __) => Container(color: Colors.grey[200]),
+                  ),
             ),
           );
       }) 
