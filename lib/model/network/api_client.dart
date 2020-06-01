@@ -24,7 +24,7 @@ class APIClient {
     };
     final response = await httpClient.get(url, headers: headers);
 
-    debugPrint('🛠 [API] ${_APIPath.works} RESPONSE\n${response.body}');
+    debugPrint('🛠 [API] $url RESPONSE: ${response.body}');
 
     if (response.statusCode == 200) {
       final raw = json.decode(response.body);
