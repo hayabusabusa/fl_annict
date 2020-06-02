@@ -16,8 +16,11 @@ class WorksPage extends StatelessWidget {
           ? Center(child: CircularProgressIndicator(),) 
           : ListView.separated(
             itemCount: value.works.length,
-            separatorBuilder: (_, index) => SpacedHorizontalDivider(lSpace: 88, color: Colors.grey[200],), 
-            itemBuilder: (_, index) => WorkListItem(work: value.works[index]), 
+            separatorBuilder: (_, index) => const SpacedHorizontalDivider(lSpace: 120,),  // Image 104px + Space 16px
+            itemBuilder: (_, index) => WorkListItem(
+              work: value.works[index],
+              onTap: () {},
+            ), 
           );
       }) 
     );

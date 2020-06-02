@@ -10,7 +10,7 @@ class SpacedHorizontalDivider extends StatelessWidget {
     this.height = 1,
     this.lSpace = 0,
     this.rSpace = 0,
-    this.color = Colors.black45,
+    this.color = Colors.black12,
   });
 
   @override
