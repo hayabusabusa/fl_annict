@@ -20,7 +20,7 @@ class IconText extends StatelessWidget {
         Icon(
           icon,
           color: iconColor,
-          size: 24,
+          size: 20,
         ),
         const SizedBox(width: 4),
         Text(
