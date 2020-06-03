@@ -15,17 +15,19 @@ class WorksPage extends StatelessWidget {
       ),
       body: context.select((WorksNotifier value) => value.isLoading 
         ? Center(child: CircularProgressIndicator(),) 
-        : ListView.separated(
-          itemCount: works.length,
-          controller: value.scrollController,
-          separatorBuilder: (_, index) => const SpacedHorizontalDivider(lSpace: 120,),  // Image 104px + Space 16px
-          itemBuilder: (_, index) => WorkListItem(
-            work: works[index], 
-            onTap: () {
-              Navigator.of(context).push(
-                MaterialPageRoute(builder: (_) => WorkDetailPage.wrapped(works[index]))
-              );
-            },
+        : Scrollbar(
+          child: ListView.separated(
+            itemCount: works.length,
+            controller: value.scrollController,
+            separatorBuilder: (_, index) => const SpacedHorizontalDivider(lSpace: 120,),  // Image 104px + Space 16px
+            itemBuilder: (_, index) => WorkListItem(
+              work: works[index], 
+              onTap: () {
+                Navigator.of(context).push(
+                  MaterialPageRoute(builder: (_) => WorkDetailPage.wrapped(works[index]))
+                );
+              },
+            ),
           ),
         )
       )
