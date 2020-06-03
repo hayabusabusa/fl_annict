@@ -16,12 +16,29 @@ class WorksModel {
   final BehaviorSubject<WorksResponse> _worksSubject = BehaviorSubject<WorksResponse>.seeded(WorksResponse(works: []));
   Stream<List<Work>> get works => _worksSubject.stream.map((event) => event.works);
 
+  /// 次のページを読み込み中かどうか.
+  bool _isFetching = false;
+
   // MARK: Public
 
   void fetch() async {
-    final response = await _apiClient.getWorks(DateTime.now());
+    final response = await _apiClient.getWorks(time: DateTime.now());
     _worksSubject.add(response);
     _isLoadingSubject.add(false);
+  }
+
+  void fetchNextIfNeeded() async {
+    final next = _worksSubject.value.next;
+
+    if (_isFetching || next == null) return;
+    _isFetching = true;
+    
+    final response = await _apiClient.getWorks(time: DateTime.now(), page: next);
+    final newWorks = _worksSubject.value.works;
+    newWorks.addAll(response.works);
+
+    _isFetching = false;
+    _worksSubject.add(WorksResponse(works: newWorks, next: response.next, total: response.total, prev: response.prev));
   }
 
   void dispose() {

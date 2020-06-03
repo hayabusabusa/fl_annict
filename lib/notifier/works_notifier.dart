@@ -8,6 +8,16 @@ class WorksNotifier with ChangeNotifier {
 
   // MARK: Properties
 
+  final ScrollController _scrollController = ScrollController();
+  ScrollController get scrollController => _scrollController;
+
+  void _onScroll() {
+    double position = scrollController.offset / scrollController.position.maxScrollExtent;
+      if (position >= 1) {
+        _model.fetchNextIfNeeded();
+      }
+  }
+
   bool _isLoading = true;
   bool get isLoading => _isLoading;
 
@@ -29,6 +39,7 @@ class WorksNotifier with ChangeNotifier {
   WorksNotifier(this._model) {
     _model.isLoading.listen((event) => _setIsLoading(event));
     _model.works.listen((event) => _setWorks(event));
+    _scrollController.addListener(() => _onScroll());
 
     _model.fetch();
   }
@@ -36,6 +47,7 @@ class WorksNotifier with ChangeNotifier {
   @override
   void dispose() {
     _model.dispose();
+    _scrollController.dispose();
     super.dispose();
   }
 }

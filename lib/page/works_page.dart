@@ -7,22 +7,23 @@ import 'package:fl_annict/widget/widget.dart';
 class WorksPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    final works = context.select((WorksNotifier value) => value.works);
     return Scaffold(
       appBar: AppBar(
         title: Text('works'),
       ),
-      body: context.select((WorksNotifier value) {
-        return value.isLoading 
-          ? Center(child: CircularProgressIndicator(),) 
-          : ListView.separated(
-            itemCount: value.works.length,
-            separatorBuilder: (_, index) => const SpacedHorizontalDivider(lSpace: 120,),  // Image 104px + Space 16px
-            itemBuilder: (_, index) => WorkListItem(
-              work: value.works[index],
-              onTap: () {},
-            ), 
-          );
-      }) 
+      body: context.select((WorksNotifier value) => value.isLoading 
+        ? Center(child: CircularProgressIndicator(),) 
+        : ListView.separated(
+          itemCount: works.length,
+          controller: value.scrollController,
+          separatorBuilder: (_, index) => const SpacedHorizontalDivider(lSpace: 120,),  // Image 104px + Space 16px
+          itemBuilder: (_, index) => WorkListItem(
+            work: works[index], 
+            onTap: () {},
+          ),
+        )
+      )
     );
   }
 }

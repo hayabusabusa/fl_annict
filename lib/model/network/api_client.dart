@@ -17,8 +17,8 @@ class APIClient {
 
   final http.Client httpClient = http.Client();
 
-  Future<EpisodesResponse> getEpisodes({int workId}) async {
-    final url = baseURL + _APIPath.episodes + '?filter_work_id=$workId';
+  Future<EpisodesResponse> getEpisodes({@required int workId, int page = 1}) async {
+    final url = baseURL + _APIPath.episodes + '?filter_work_id=$workId' + '&page=$page' + '&sort_id=desc';
     final headers = {
       HttpHeaders.contentTypeHeader: "application/json",
       HttpHeaders.authorizationHeader: token,
@@ -35,8 +35,8 @@ class APIClient {
     }
   }
 
-  Future<WorksResponse> getWorks(DateTime time) async {
-    final url = baseURL + _APIPath.works + '?filter_season=${time.toFilterSeasonParam()}';
+  Future<WorksResponse> getWorks({@required DateTime time, int page = 1}) async {
+    final url = baseURL + _APIPath.works + '?filter_season=${time.toFilterSeasonParam()}' + '&page=$page' + '&sort_id=desc';
     final headers = {
       HttpHeaders.contentTypeHeader: "application/json",
       HttpHeaders.authorizationHeader: token,
