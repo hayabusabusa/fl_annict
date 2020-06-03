@@ -1,4 +1,4 @@
-export './borderd_chip.dart';
+export './bordered_chip.dart';
 export './broken_image.dart';
 export './icon_text.dart';
 export './spaced_horizontal_divider.dart';
