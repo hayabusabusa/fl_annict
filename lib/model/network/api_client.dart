@@ -8,6 +8,7 @@ import 'package:fl_annict/entity/entity.dart';
 
 class _APIPath {
   static final String works = '/v1/works';
+  static final String episodes = '/v1/episodes';
 }
 
 class APIClient {
@@ -15,6 +16,24 @@ class APIClient {
   static final String token = 'Bearer ' + accessToken;
 
   final http.Client httpClient = http.Client();
+
+  Future<EpisodesResponse> getEpisodes({int workId}) async {
+    final url = baseURL + _APIPath.episodes + '?filter_work_id=$workId';
+    final headers = {
+      HttpHeaders.contentTypeHeader: "application/json",
+      HttpHeaders.authorizationHeader: token,
+    };
+    final response = await httpClient.get(url, headers: headers);
+
+    debugPrint('🛠 [API] $url RESPONSE: ${response.body}');
+
+    if (response.statusCode == 200) {
+      final raw = json.decode(response.body);
+      return EpisodesResponse.fromJson(raw);
+    } else {
+      throw Exception('Failed to GET $url. (code=${response.statusCode})');
+    }
+  }
 
   Future<WorksResponse> getWorks(DateTime time) async {
     final url = baseURL + _APIPath.works + '?filter_season=${time.toFilterSeasonParam()}';
@@ -30,7 +49,7 @@ class APIClient {
       final raw = json.decode(response.body);
       return WorksResponse.fromJson(raw);
     } else {
-      throw Exception('Failed to GET ${_APIPath.works}. (code=${response.statusCode})');
+      throw Exception('Failed to GET $url. (code=${response.statusCode})');
     }
   }
 }
