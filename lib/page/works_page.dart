@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import 'package:fl_annict/notifier/notifier.dart';
+import 'package:fl_annict/page/page.dart';
 import 'package:fl_annict/widget/widget.dart';
 
 class WorksPage extends StatelessWidget {
@@ -20,7 +21,11 @@ class WorksPage extends StatelessWidget {
           separatorBuilder: (_, index) => const SpacedHorizontalDivider(lSpace: 120,),  // Image 104px + Space 16px
           itemBuilder: (_, index) => WorkListItem(
             work: works[index], 
-            onTap: () {},
+            onTap: () {
+              Navigator.of(context).push(
+                MaterialPageRoute(builder: (_) => WorkDetailPage.wrapped(works[index]))
+              );
+            },
           ),
         )
       )
