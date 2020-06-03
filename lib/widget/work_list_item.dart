@@ -55,11 +55,7 @@ class WorkListItem extends StatelessWidget {
                   ),
                   const SizedBox(height: 4),
                    // Media
-                  Container(
-                    padding: const EdgeInsets.symmetric(vertical: 2, horizontal: 12),
-                    child: Text(work.media, style: TextStyle(color: Colors.white),),
-                    decoration: BoxDecoration(color: Colors.blue, borderRadius: BorderRadius.circular(999)),
-                  ),
+                  BorderedChip(text: work.media),
                   // Spacer
                   const Expanded(child: const SizedBox()),
                   // Episodes, Watchers
@@ -75,11 +71,6 @@ class WorkListItem extends StatelessWidget {
             ),
             // Spacer
             const SizedBox(width: 8,),
-            // Disclosure indicator
-            const Icon(
-              Icons.chevron_right,
-              color: Colors.grey,
-            ),
           ],
         ),
       ),
