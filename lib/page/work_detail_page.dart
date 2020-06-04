@@ -49,11 +49,14 @@ class WorkDetailPage extends StatelessWidget {
             // Title Section
             sliver: SliverList(
               delegate: SliverChildListDelegate([
+                // Title
                 Text(
                   work.title,
                   style: const TextStyle(fontSize: 20,fontWeight: FontWeight.w500,),
                 ),
+                // Spacer
                 const SizedBox(height: 4),
+                // Season
                 Wrap(
                   direction: Axis.horizontal,
                   alignment: WrapAlignment.start,
@@ -64,20 +67,35 @@ class WorkDetailPage extends StatelessWidget {
                     BorderedChip(text: work.season),
                   ],
                 ),
+                // Spacer
                 const SizedBox(height: 16),
+                // Social Buttons
                 Container(
                   height: 40,
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
                     crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: <Widget>[
-                      IconText(icon: Icons.info, text: work.watchersCount.toString()),
+                      SocialButton(type: SocialType.twitter, onPressed: () {},),
                       const VerticalDivider(),
-                      IconText(icon: Icons.info, text: work.watchersCount.toString()),
+                      SocialButton(type: SocialType.official,),
+                      const VerticalDivider(),
+                      SocialButton(type: SocialType.wikipedia,),
                     ],
                   ),
                 ),
               ]),
+            ),
+          ),
+          // Divider
+          SliverToBoxAdapter(
+            child: SpacedHorizontalDivider(color: Colors.grey[200])
+          ),
+          // Episode Count
+          SliverToBoxAdapter(
+            child: Padding(
+              padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
+              child: IconText(icon: Icons.info, text: '全 ${work.episodesCount} 話'),
             ),
           ),
           // Divider
