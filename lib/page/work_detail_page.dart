@@ -31,7 +31,7 @@ class WorkDetailPage extends StatelessWidget {
             floating: true,
             pinned: true,
             stretch: true,
-            expandedHeight: MediaQuery.of(context).size.height / 3.5, // Screen.height / 4
+            expandedHeight: MediaQuery.of(context).size.height / 3, // Screen.height / 4
             flexibleSpace: FlexibleSpaceBar(
               collapseMode: CollapseMode.pin,
               background: work.image == null 
@@ -68,34 +68,29 @@ class WorkDetailPage extends StatelessWidget {
                   ],
                 ),
                 // Spacer
+                const SizedBox(height: 4),
+                // Counts
+                IconText(icon: Icons.info, text: '全 ${work.episodesCount} 話'),
+                const SizedBox(height: 4),
+                IconText(icon: Icons.watch_later, text: '${work.watchersCount} 人がチェック'),
+                // Spacer
                 const SizedBox(height: 16),
                 // Social Buttons
                 Container(
-                  height: 40,
+                  height: 32,
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
                     crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: <Widget>[
                       SocialButton(type: SocialType.twitter, onPressed: () {},),
                       const VerticalDivider(),
-                      SocialButton(type: SocialType.official,),
+                      SocialButton(type: SocialType.official, onPressed: () {},),
                       const VerticalDivider(),
-                      SocialButton(type: SocialType.wikipedia,),
+                      SocialButton(type: SocialType.wikipedia, onPressed: () {},),
                     ],
                   ),
                 ),
               ]),
-            ),
-          ),
-          // Divider
-          SliverToBoxAdapter(
-            child: SpacedHorizontalDivider(color: Colors.grey[200])
-          ),
-          // Episode Count
-          SliverToBoxAdapter(
-            child: Padding(
-              padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
-              child: IconText(icon: Icons.info, text: '全 ${work.episodesCount} 話'),
             ),
           ),
           // Divider
@@ -110,7 +105,10 @@ class WorkDetailPage extends StatelessWidget {
                 child: SizedBox(width: 24, height: 24, child: CircularProgressIndicator()),
               )
             )
-            : SliverList(delegate: SliverChildListDelegate(episodes.map((e) => Text(e.title)).toList())),
+            : SliverPadding(
+              padding: const EdgeInsets.only(top: 8, left: 20),
+              sliver: SliverList(delegate: SliverChildListDelegate(episodes.map((e) => EpisodeListItem(e)).toList())),
+            ),
           ),
         ],
       ),
