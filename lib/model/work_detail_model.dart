@@ -16,7 +16,7 @@ class WorkDetailModel {
   Stream<bool> get isLoading => _isLoadingSubject.stream;
 
   final BehaviorSubject<EpisodesResponse> _episodesResponseSubject = BehaviorSubject<EpisodesResponse>.seeded(EpisodesResponse(episodes: []));
-  Stream<List<Episode>> get episodes => _episodesResponseSubject.stream.map((event) => event.episodes);
+  Stream<List<Episode>> get episodes => _episodesResponseSubject.stream.map((event) => event.episodes.where((element) => element.title != null).toList());
 
   /// 次のページを読み込み中かどうか.
   bool _isFetching = false;

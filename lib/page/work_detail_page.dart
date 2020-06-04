@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 
 import 'package:fl_annict/entity/entity.dart';
+import 'package:fl_annict/model/model.dart'; // NOTE: Model を import している
 import 'package:fl_annict/notifier/notifier.dart';
 import 'package:fl_annict/widget/widget.dart';
 
@@ -10,8 +11,9 @@ class WorkDetailPage extends StatelessWidget {
   const WorkDetailPage._({Key key}): super(key: key);
 
   static Widget wrapped(Work work) {
+    // TODO: 依存の関係がごちゃごちゃなので整理したい.
     return ChangeNotifierProvider(
-      create: (_) => WorkDetailNotifier(work),
+      create: (_) => WorkDetailNotifier(WorkDetailModel(work.id), work: work),
       child: const WorkDetailPage._(),
     );
   }
@@ -19,6 +21,7 @@ class WorkDetailPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final work = context.select((WorkDetailNotifier value) => value.work);
+    final episodes = context.select((WorkDetailNotifier value) => value.episode);
     return Scaffold(
       body: CustomScrollView(
         slivers: <Widget>[
@@ -36,6 +39,7 @@ class WorkDetailPage extends StatelessWidget {
                 : CachedNetworkImage(
                   imageUrl: work.image,
                   fit: BoxFit.cover,
+                  errorWidget: (_, __, ___) => BrokenImage()
                 ),
             ),
           ),
@@ -81,12 +85,15 @@ class WorkDetailPage extends StatelessWidget {
             child: SpacedHorizontalDivider(color: Colors.grey[200])
           ),
           // Episodes
-          SliverFillRemaining(
-            hasScrollBody: false,
-            child: Center(
-              child: SizedBox(width: 24, height: 24, child: CircularProgressIndicator()),
+          context.select((WorkDetailNotifier value) => value.isLoading 
+            ? SliverFillRemaining(
+              hasScrollBody: false,
+              child: Center(
+                child: SizedBox(width: 24, height: 24, child: CircularProgressIndicator()),
+              )
             )
-          )
+            : SliverList(delegate: SliverChildListDelegate(episodes.map((e) => Text(e.title)).toList())),
+          ),
         ],
       ),
     );
